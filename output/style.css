@@ -1,0 +1,37 @@
+body {
+    background-color: #F2F2F2;
+}
+
+a {
+    color:#FF4224;
+}
+
+a:hover {
+    color:#a32714;
+
+}
+
+h3 {
+    font-size:1rem;
+}
+
+.header-bg {
+    background-color: #56598F;
+}
+
+.card {
+    border: none;
+    border-radius: .5rem
+}
+
+.card-header {
+    background-color:#FF4224;
+}
+
+.card-width {
+    min-width: 250px;
+}
+
+.list-group-item {
+    border:none;
+}
