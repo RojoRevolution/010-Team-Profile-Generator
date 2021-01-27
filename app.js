@@ -10,6 +10,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const teamMembers = [];
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 const managerQuestions = [
@@ -155,7 +157,7 @@ const internQuestions = [
     {
         type: 'input',
         message: 'Intern | Enter Email Address:',
-        name: 'interEmail',
+        name: 'internEmail',
         validate: function (answer) {
             if (answer === "") {
                 return console.log("An email address is required")
@@ -180,6 +182,17 @@ const internQuestions = [
     },
 ];
 
+// Add more Employees or Quit Question
+const nextQuestions = [
+    {
+        type: 'list',
+        message: 'What would you like to do next?',
+        name: "doNext",
+        choices: ['Add an Engineer', 'Add an Intern', 'Finalize Team and End Program']
+
+    },
+]
+
 
 // https://github.com/JeffQuit/OOP---Team-Profile-Generator/blob/master/app.js
 
@@ -187,9 +200,65 @@ const internQuestions = [
 // Function 1: Create a function that only asks about addig more team members - us if else statements
 // Function 2: Create a function that then runs enginneer or intern questions based on answer to the above function -- at the end of these questions, we re-run the above functio that asks if they want to add more team members -- When No or Quit is chosen in function 1 - stop inquirer and run a function that renders the HTML
 
+// Fuction begins the process asks the manager questions and pushes the responses to an array
+function init() {
+    inquirer.prompt(managerQuestions).then((managerResponse) => {
+        let manager = new Manager(
+            managerResponse.managerName,
+            managerResponse.managerId,
+            managerResponse.managerEmail,
+            managerResponse.managerOffice
+        );
+        teamMembers.push(manager)
+        // Runs addMore Prompts
+        addMore();
+    })
+}
+// Function runs the engineer questions and pushes the responses to an array
+function addEngineer() {
+    inquirer.prompt(engineerQuestions).then((engResponse) => {
+        let engineer = new Engineer(
+            engResponse.engineerName,
+            engResponse.engineerId,
+            engResponse.engineerEmail,
+            engResponse.gitHub
+        );
+        teamMembers.push(engineer)
+        addMore();
+
+    })
+}
+// function runs the intern questions and pushes the responses to an array
+function addIntern() {
+    inquirer.prompt(internQuestions).then((intResponse) => {
+        let intern = new Intern(
+            intResponse.internName,
+            intResponse.internId,
+            intResponse.internEmail,
+            intResponse.internSchool,
+        );
+        teamMembers.push(intern);
+
+        addMore();
+    })
+}
+
+// Function asks the question to add an engineer, intern or quit the program
+function addMore() {
+    inquirer.prompt(nextQuestions).then((choice) => {
+        if (choice.doNext === 'Add an Engineer') {
+            addEngineer();
+        } else if (choice.doNext === 'Add an Intern') {
+            addIntern();
+        } else {
+            console.log('APPLICATION ENDING')
+            console.log(teamMembers)
+        }
+    })
+}
 
 // function call to initialize program
-// init();
+init();
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
