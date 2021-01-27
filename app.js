@@ -10,36 +10,12 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const initQuestions = [
-    `Team Manager | Enter Name:`,
-    `Team Manager | Enter Employee ID:`,
-    `Team Manager | Enter Email Address:`,
-    `Team Manager | Enter Office Number:`,
-    `Would you like to add another employee?`,
-];
-
-const engineerQuestions = [
-    `New Engineer | Enter Name:`,
-    `New Engineer | Enter Employee ID:`,
-    `New Engineer | Enter Email Address:`,
-    `New Engineer | Enter GitHub URL:`,
-    `What would you like to do next?`,
-]
-
-const internQuestions = [
-    `New Intern | Enter Name:`,
-    `New Intern | Enter Employee ID:`,
-    `New Intern | Enter Email Address:`,
-    `New Intern | Enter School:`,
-    `What would you like to do next?`,
-]
-
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-const managerQuestion = [
+const managerQuestions = [
     {
         type: 'input',
-        message: initQuestions[0],
+        message: 'Team Manager | Enter Name:',
         name: "managerName",
         validate: function (answer) {
             if (answer === "") {
@@ -53,7 +29,7 @@ const managerQuestion = [
     },
     {
         type: 'input',
-        message: initQuestions[1],
+        message: 'Team Manager | Enter Employee ID:',
         name: 'managerId',
         validate: function (answer) {
             if (answer === "") {
@@ -66,7 +42,7 @@ const managerQuestion = [
     },
     {
         type: 'input',
-        message: initQuestions[2],
+        message: 'Team Manager | Enter Email Address:',
         name: 'managerEmail',
         validate: function (answer) {
             if (answer === "") {
@@ -79,7 +55,7 @@ const managerQuestion = [
     },
     {
         type: 'input',
-        message: initQuestions[3],
+        message: 'Team Manager | Enter Office Number:',
         name: 'managerOffice',
         validate: function (answer) {
             if (answer === "") {
@@ -90,15 +66,127 @@ const managerQuestion = [
 
         }
     },
+];
+// Engineer Questions
+const engineerQuestions = [
     {
-        type: 'list',
-        message: initQuestions[4],
-        name: 'addMore',
-        choices: ['Add an Engineer', 'Add an Intern', 'Save and Quit Application']
+        type: 'input',
+        message: 'Engineer | Enter Name:',
+        name: "engineerName",
+        validate: function (answer) {
+            if (answer === "") {
+                return console.log("A Manager's name is required")
+            } else {
+                return true;
+            }
+
+        }
+
+    },
+    {
+        type: 'input',
+        message: 'Engineer | Enter Employee ID:',
+        name: 'engineerId',
+        validate: function (answer) {
+            if (answer === "") {
+                return console.log("An employee ID is required")
+            } else {
+                return true;
+            }
+
+        }
+    },
+    {
+        type: 'input',
+        message: 'Engineer | Enter Email Address:',
+        name: 'engineerEmail',
+        validate: function (answer) {
+            if (answer === "") {
+                return console.log("An email address is required")
+            } else {
+                return true;
+            }
+
+        }
+    },
+    {
+        type: 'input',
+        message: 'Engineer | Enter Github URL:',
+        name: 'gitHub',
+        validate: function (answer) {
+            if (answer === "") {
+                return console.log("A github URL is required")
+            } else {
+                return true;
+            }
+
+        }
+    },
+];
+// Intern Questions
+const internQuestions = [
+    {
+        type: 'input',
+        message: 'Intern | Enter Name:',
+        name: "internName",
+        validate: function (answer) {
+            if (answer === "") {
+                return console.log("A Manager's name is required")
+            } else {
+                return true;
+            }
+
+        }
+
+    },
+    {
+        type: 'input',
+        message: 'Intern | Enter Employee ID:',
+        name: 'internId',
+        validate: function (answer) {
+            if (answer === "") {
+                return console.log("An employee ID is required")
+            } else {
+                return true;
+            }
+
+        }
+    },
+    {
+        type: 'input',
+        message: 'Intern | Enter Email Address:',
+        name: 'interEmail',
+        validate: function (answer) {
+            if (answer === "") {
+                return console.log("An email address is required")
+            } else {
+                return true;
+            }
+
+        }
+    },
+    {
+        type: 'input',
+        message: `Intern | Enter the Intern's School:`,
+        name: 'internSchool',
+        validate: function (answer) {
+            if (answer === "") {
+                return console.log("A github URL is required")
+            } else {
+                return true;
+            }
+
+        }
     },
 ];
 
-console.log(managerQuestion);
+
+// https://github.com/JeffQuit/OOP---Team-Profile-Generator/blob/master/app.js
+
+//TO DO: 
+// Function 1: Create a function that only asks about addig more team members - us if else statements
+// Function 2: Create a function that then runs enginneer or intern questions based on answer to the above function -- at the end of these questions, we re-run the above functio that asks if they want to add more team members -- When No or Quit is chosen in function 1 - stop inquirer and run a function that renders the HTML
+
 
 // function call to initialize program
 // init();
