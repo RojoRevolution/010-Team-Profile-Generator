@@ -265,7 +265,7 @@ function addMore() {
 // function call to initialize program
 init();
 
-//an Async working with util.prosify on line 9
+//an Async Function working with util.promisify on line 9
 async function renderAndOutput(file) {
     const htmlPage = render(file);
 
