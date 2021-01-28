@@ -5,6 +5,7 @@ const inquirer = require("inquirer");
 const util = require('util')
 const path = require("path");
 const fs = require("fs");
+
 const writeFileAsync = util.promisify(fs.writeFile);
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
@@ -12,10 +13,10 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+//Array holds all answers from Inquirer Prompts
 const teamMembers = [];
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
+// Array Hold all the Manager Questions used for Inquirer
 const managerQuestions = [
     {
         type: 'input',
@@ -71,7 +72,8 @@ const managerQuestions = [
         }
     },
 ];
-// Engineer Questions
+
+// Array Hold all the Engineer Questions used for Inquirer
 const engineerQuestions = [
     {
         type: 'input',
@@ -127,7 +129,8 @@ const engineerQuestions = [
         }
     },
 ];
-// Intern Questions
+
+// Array Hold all the Intern Questions used for Inquirer
 const internQuestions = [
     {
         type: 'input',
@@ -184,7 +187,7 @@ const internQuestions = [
     },
 ];
 
-// Add more Employees or Quit Question
+// Next Question is the prompt used to add more employees or quit the application
 const nextQuestions = [
     {
         type: 'list',
@@ -196,13 +199,7 @@ const nextQuestions = [
 ]
 
 
-// https://github.com/JeffQuit/OOP---Team-Profile-Generator/blob/master/app.js
-
-//TO DO: 
-// Function 1: Create a function that only asks about addig more team members - us if else statements
-// Function 2: Create a function that then runs enginneer or intern questions based on answer to the above function -- at the end of these questions, we re-run the above functio that asks if they want to add more team members -- When No or Quit is chosen in function 1 - stop inquirer and run a function that renders the HTML
-
-// Fuction begins the process asks the manager questions and pushes the responses to an array
+// Function begins the process; asks the Manager prompts 
 function init() {
     inquirer.prompt(managerQuestions).then((managerResponse) => {
         let manager = new Manager(
@@ -211,12 +208,13 @@ function init() {
             managerResponse.managerEmail,
             managerResponse.managerOffice
         );
+        //push results to array
         teamMembers.push(manager)
         // Runs addMore Prompts
         addMore();
     })
 }
-// Function runs the engineer questions and pushes the responses to an array
+// Function runs the engineer prompts 
 function addEngineer() {
     inquirer.prompt(engineerQuestions).then((engResponse) => {
         let engineer = new Engineer(
@@ -225,12 +223,14 @@ function addEngineer() {
             engResponse.engineerEmail,
             engResponse.gitHub
         );
+        // pushes results to array
         teamMembers.push(engineer)
+        // Runs the AddMore Prompts
         addMore();
 
     })
 }
-// function runs the intern questions and pushes the responses to an array
+// function runs the intern prompts
 function addIntern() {
     inquirer.prompt(internQuestions).then((intResponse) => {
         let intern = new Intern(
@@ -239,13 +239,14 @@ function addIntern() {
             intResponse.internEmail,
             intResponse.internSchool,
         );
+        // pushes results to array
         teamMembers.push(intern);
-
+        // runs the Addmore Prompts
         addMore();
     })
 }
 
-// Function asks the question to add an engineer, intern or quit the program
+// Function gives three choices: Add new engineer, add new intern, or end program
 function addMore() {
     inquirer.prompt(nextQuestions).then((choice) => {
         if (choice.doNext === 'Add an Engineer') {
@@ -253,8 +254,9 @@ function addMore() {
         } else if (choice.doNext === 'Add an Intern') {
             addIntern();
         } else {
+            console.log('//////////////////')
             console.log('APPLICATION ENDING')
-            console.log(teamMembers)
+            console.log('//////////////////')
             renderAndOutput(teamMembers);
         }
     })
@@ -262,29 +264,11 @@ function addMore() {
 
 // function call to initialize program
 init();
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
+
+//an Async working with util.prosify on line 9
 async function renderAndOutput(file) {
     const htmlPage = render(file);
 
     await writeFileAsync(outputPath, htmlPage);
 }
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
-
 
