@@ -117,11 +117,11 @@ const engineerQuestions = [
     },
     {
         type: 'input',
-        message: 'Engineer | Enter Github URL:',
+        message: 'Engineer | Enter Github Username:',
         name: 'gitHub',
         validate: function (answer) {
             if (answer === "") {
-                return console.log("A github URL is required")
+                return console.log("A github username is required")
             } else {
                 return true;
             }
